@@ -1,6 +1,4 @@
-# Author: aqeelanwar
-# Created: 12 March,2020, 7:06 PM
-# Email: aqeel.anwar@gatech.edu
+
 
 from tkinter import *
 import numpy as np
@@ -14,15 +12,13 @@ Green_color = '#7BC043'
 
 
 class Tic_Tac_Toe():
-    # ------------------------------------------------------------------
-    # Initialization Functions:
-    # ------------------------------------------------------------------
+
     def __init__(self):  # Cambiar aquí
         self.window = Tk()
         self.window.title('Tic-Tac-Toe')
         self.canvas = Canvas(self.window, width=size_of_board, height=size_of_board)
         self.canvas.pack()
-        # Input from user in form of clicks
+
         self.window.bind('<Button-1>', self.click)
 
         self.initialize_board()
@@ -56,15 +52,11 @@ class Tic_Tac_Toe():
         self.player_X_turns = self.player_X_starts
         self.board_status = np.zeros(shape=(3, 3))
 
-    # ------------------------------------------------------------------
-    # Drawing Functions:
-    # The modules required to draw required game based object on canvas
-    # ------------------------------------------------------------------
+
 
     def draw_O(self, logical_position):
         logical_position = np.array(logical_position)
-        # logical_position = grid value on the board
-        # grid_position = actual pixel values of the center of the grid
+
         grid_position = self.convert_logical_to_grid_position(logical_position)
         self.canvas.create_oval(grid_position[0] - symbol_size, grid_position[1] - symbol_size,
                                 grid_position[0] + symbol_size, grid_position[1] + symbol_size, width=symbol_thickness,
@@ -112,10 +104,7 @@ class Tic_Tac_Toe():
         self.canvas.create_text(size_of_board / 2, 15 * size_of_board / 16, font="cmr 20 bold", fill="gray",
                                 text=score_text)
 
-    # ------------------------------------------------------------------
-    # Logical Functions:
-    # The modules required to carry out game logic
-    # ------------------------------------------------------------------
+
 
     def convert_logical_to_grid_position(self, logical_position):
         logical_position = np.array(logical_position, dtype=int)
@@ -135,14 +124,13 @@ class Tic_Tac_Toe():
 
         player = -1 if player == 'X' else 1
 
-        # Three in a row
+
         for i in range(3):
             if self.board_status[i][0] == self.board_status[i][1] == self.board_status[i][2] == player:
                 return True
             if self.board_status[0][i] == self.board_status[1][i] == self.board_status[2][i] == player:
                 return True
 
-        # Diagonals
         if self.board_status[0][0] == self.board_status[1][1] == self.board_status[2][2] == player:
             return True
 
@@ -161,7 +149,7 @@ class Tic_Tac_Toe():
         return tie
 
     def is_gameover(self):
-        # Either someone wins or all grid occupied
+
         self.X_wins = self.is_winner('X')
         if not self.X_wins:
             self.O_wins = self.is_winner('O')
@@ -200,11 +188,10 @@ class Tic_Tac_Toe():
                     self.board_status[logical_position[0]][logical_position[1]] = 1
                     self.player_X_turns = not self.player_X_turns
 
-            # Check if game is concluded
             if self.is_gameover():
                 self.display_gameover()
-                # print('Done')
-        else:  # Play Again
+                
+        else:  
             self.canvas.delete("all")
             self.play_again()
             self.reset_board = False
